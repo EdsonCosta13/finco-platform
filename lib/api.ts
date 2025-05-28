@@ -60,6 +60,27 @@ export interface CreditResponse {
   statusCode: number;
 }
 
+export interface CreditRequestResponse {
+  data: {
+    amount: number;
+    company_name: string;
+    created_at: string;
+    employee_id: number;
+    employee_name: string;
+    funded_amount: number;
+    id: number;
+    interest_rate: number;
+    purpose: string;
+    status: string;
+    term_months: number;
+    updated_at: string;
+  }[];
+  message: string;
+  status: string;
+  statusCode: number;
+  total: number;
+}
+
 export const authApi = {
   loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
@@ -76,8 +97,21 @@ export const creditApi = {
   requestCredit: async (data: CreditRequest): Promise<CreditResponse> => {
     const token = localStorage.getItem('access_token');
     const response = await axios.post(
-      `${API_BASE_URL}/api/credits/employee/requests`,
+      `${API_BASE_URL}/credits/employee/requests`,
       data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return response.data;
+  },
+
+  getCreditRequests: async (): Promise<CreditRequestResponse> => {
+    const token = localStorage.getItem('access_token');
+    const response = await axios.get(
+      `${API_BASE_URL}/api/credits/employee/requests`,
       {
         headers: {
           Authorization: `Bearer ${token}`

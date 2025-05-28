@@ -11,7 +11,11 @@ import { creditApi } from "@/lib/api"
 import { toast } from "sonner"
 import { Loader2, Plus } from "lucide-react"
 
-export function RequestCreditModal() {
+interface RequestCreditModalProps {
+  onSuccess?: () => void;
+}
+
+export function RequestCreditModal({ onSuccess }: RequestCreditModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [amount, setAmount] = useState("")
@@ -35,6 +39,8 @@ export function RequestCreditModal() {
       setAmount("")
       setTermMonths("")
       setPurpose("")
+      // Call onSuccess callback if provided
+      onSuccess?.()
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Erro ao solicitar crédito. Tente novamente.")
     } finally {
