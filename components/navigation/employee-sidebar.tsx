@@ -24,8 +24,13 @@ const employeeMenuItems = [
     icon: CreditCard,
   },
   {
-    title: "Investimentos",
+    title: "Oportunidades",
     url: "/employee/investment-available",
+    icon: CreditCard,
+  },
+  {
+    title: "Meus Investimentos",
+    url: "/employee/my-investments",
     icon: CreditCard,
   },
 ]

@@ -68,14 +68,14 @@ export default function ManagerDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Ana Costa</p>
-                  <p className="text-sm text-muted-foreground">R$ 8.000</p>
+                  <p className="text-sm text-muted-foreground">Kzs 8.000</p>
                 </div>
                 <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Pendente</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Carlos Silva</p>
-                  <p className="text-sm text-muted-foreground">R$ 12.000</p>
+                  <p className="text-sm text-muted-foreground">Kzs 12.000</p>
                 </div>
                 <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Aprovado</span>
               </div>

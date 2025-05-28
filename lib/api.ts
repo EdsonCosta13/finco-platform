@@ -217,6 +217,43 @@ export interface CreateInvestmentResponse {
   statusCode: number;
 }
 
+export interface MyInvestment {
+  id: number;
+  amount: number;
+  created_at: string;
+  credit_request_id: number;
+  employee_id: number;
+  credit_request: {
+    id: number;
+    amount: number;
+    company_name: string;
+    created_at: string;
+    employee_name: string;
+    funded_amount: number;
+    interest_rate: number;
+    investment_percentage: number;
+    purpose: string;
+    status: string;
+    term_months: number;
+  };
+  payments: any[];
+  payments_summary: {
+    next_payment: string | null;
+    total_dividend: number;
+    total_interest: number;
+    total_paid: number;
+    total_pending: number;
+  };
+}
+
+export interface MyInvestmentsResponse {
+  data: MyInvestment[];
+  message: string;
+  status: string;
+  statusCode: number;
+  total: number;
+}
+
 export const authApi = {
   loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
@@ -364,6 +401,14 @@ export const investmentApi = {
   },
   createInvestment: async (data: CreateInvestmentRequest): Promise<CreateInvestmentResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/investment/create`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+  getMyInvestments: async (): Promise<MyInvestmentsResponse> => {
+    const response = await axios.get(`${API_BASE_URL}/api/investment/my-investments`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },

@@ -39,7 +39,7 @@ export default function EmployeeRequestPage() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Valor Solicitado (R$)</Label>
+                  <Label htmlFor="amount">Valor Solicitado (Kzs)</Label>
                   <Input
                     id="amount"
                     type="number"
@@ -114,15 +114,15 @@ export default function EmployeeRequestPage() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm">Limite Total:</span>
-                  <span className="text-sm font-medium">R$ 25.000</span>
+                  <span className="text-sm font-medium">Kzs 25.000</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm">Utilizado:</span>
-                  <span className="text-sm font-medium">R$ 8.500</span>
+                  <span className="text-sm font-medium">Kzs 8.500</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm">Disponível:</span>
-                  <span className="text-sm font-medium text-green-600">R$ 16.500</span>
+                  <span className="text-sm font-medium text-green-600">Kzs 16.500</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div className="bg-blue-600 h-2 rounded-full" style={{ width: "34%" }}></div>

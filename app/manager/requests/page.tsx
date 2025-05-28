@@ -53,7 +53,7 @@ export default function ManagerRequestsPage() {
                   <CardDescription>{request.purpose}</CardDescription>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-bold">R$ {request.amount.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">Kzs {request.amount.toLocaleString()}</p>
                   <p className="text-sm text-muted-foreground">{request.date}</p>
                 </div>
               </div>

@@ -52,7 +52,7 @@ export default function AdminCreditsPage() {
                   <p className="text-sm text-muted-foreground">{credit.date}</p>
                 </div>
                 <div className="text-right space-y-1">
-                  <p className="font-bold">R$ {credit.amount.toLocaleString()}</p>
+                  <p className="font-bold">Kzs {credit.amount.toLocaleString()}</p>
                   <Badge
                     variant={
                       credit.status === "approved"
