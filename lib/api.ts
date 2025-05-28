@@ -76,7 +76,7 @@ export const creditApi = {
   requestCredit: async (data: CreditRequest): Promise<CreditResponse> => {
     const token = localStorage.getItem('access_token');
     const response = await axios.post(
-      `${API_BASE_URL}/api/credits/employee/request`,
+      `${API_BASE_URL}/api/credits/employee/requests`,
       data,
       {
         headers: {
