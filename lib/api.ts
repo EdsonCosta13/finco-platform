@@ -103,6 +103,41 @@ export interface ManagerCreditRequestResponse {
   total: number;
 }
 
+export interface UserProfileResponse {
+  data: {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    company_id: number;
+  }
+}
+
+export interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  created_at: string;
+}
+
+export interface Invitation {
+  id: number;
+  email: string;
+  status: "pending" | "accepted" | "rejected";
+  created_at: string;
+}
+
+export interface InviteEmployeeRequest {
+  email: string;
+}
+
+export interface InviteEmployeeResponse {
+  message: string;
+  status: string;
+  statusCode: number;
+}
+
 export const authApi = {
   loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
@@ -113,6 +148,16 @@ export const authApi = {
     const response = await axios.post(`${API_BASE_URL}/api/auth/manager/login`, credentials);
     return response.data;
   },
+
+  getProfile: async (): Promise<UserProfileResponse> => {
+    const token = localStorage.getItem('access_token');
+    const response = await axios.get(`${API_BASE_URL}/api/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  }
 };
 
 export const creditApi = {
@@ -171,4 +216,42 @@ export const managerApi = {
     );
     return response.data;
   }
+};
+
+export const invitationApi = {
+  inviteEmployee: async (data: InviteEmployeeRequest): Promise<InviteEmployeeResponse> => {
+    const response = await axios.post(`${API_BASE_URL}/api/invitations/employee`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+
+  getProfile: async (): Promise<UserProfileResponse> => {
+    const response = await axios.get(`${API_BASE_URL}/api/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+
+  getEmployees: async (): Promise<{ data: Employee[] }> => {
+    const response = await axios.get(`${API_BASE_URL}/api/employees`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+
+  getInvitations: async (): Promise<{ data: Invitation[] }> => {
+    const response = await axios.get(`${API_BASE_URL}/api/invitations`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
 }; 
