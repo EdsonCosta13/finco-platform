@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2, TrendingUp } from "lucide-react"
 import { investmentApi, AvailableInvestment } from "@/lib/api"
 import { toast } from "sonner"
+import { InvestModal } from "@/components/employee/invest-modal"
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat('pt-pt', {
@@ -26,6 +27,8 @@ function formatDate(dateString: string) {
 export default function InvestmentAvailablePage() {
   const [isLoading, setIsLoading] = useState(true)
   const [opportunities, setOpportunities] = useState<AvailableInvestment[]>([])
+  const [selectedOpportunity, setSelectedOpportunity] = useState<AvailableInvestment | null>(null)
+  const [isInvestModalOpen, setIsInvestModalOpen] = useState(false)
 
   useEffect(() => {
     fetchOpportunities()
@@ -51,6 +54,12 @@ export default function InvestmentAvailablePage() {
           <p className="text-muted-foreground">Invista em créditos de outros colaboradores e obtenha retorno financeiro.</p>
         </div>
       </div>
+      <InvestModal
+        open={isInvestModalOpen}
+        onOpenChange={setIsInvestModalOpen}
+        opportunity={selectedOpportunity}
+        onSuccess={fetchOpportunities}
+      />
       {isLoading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -106,7 +115,15 @@ export default function InvestmentAvailablePage() {
                   <span className="text-sm">{formatCurrency(op.invested_amount)} ({(op.investment_percentage * 100).toFixed(1)}%)</span>
                 </div>
                 <div className="flex justify-end mt-4">
-                  <Button size="sm" variant="default" className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="default"
+                    className="flex items-center gap-2"
+                    onClick={() => {
+                      setSelectedOpportunity(op)
+                      setIsInvestModalOpen(true)
+                    }}
+                  >
                     <TrendingUp className="h-4 w-4" />
                     Investir
                   </Button>
