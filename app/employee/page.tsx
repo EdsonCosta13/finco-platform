@@ -9,13 +9,9 @@ export default function EmployeeDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Meu Perfil</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Painel de COntrole</h1>
           <p className="text-muted-foreground">Gerencie seus créditos e solicitações</p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Solicitação
-        </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

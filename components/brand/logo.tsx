@@ -44,7 +44,7 @@ export function Logo({ size = "md", showText = true, variant = "default" }: Logo
           <span
             className={`${textSizeClasses[size]} font-bold ${isWhite ? "text-white" : "text-gray-900"} tracking-tight`}
           >
-            FinCo
+            Finco
           </span>
           <span className={`text-xs ${isWhite ? "text-white/80" : "text-gray-500"} -mt-1 font-medium tracking-wide`}>
             CRÉDITO COLABORATIVO

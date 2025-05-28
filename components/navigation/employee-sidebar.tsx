@@ -14,14 +14,9 @@ import {
 
 const employeeMenuItems = [
   {
-    title: "Meu Perfil",
+    title: "Painel de Controle",
     url: "/employee",
     icon: User,
-  },
-  {
-    title: "Solicitar Crédito",
-    url: "/employee/request",
-    icon: FileText,
   },
   {
     title: "Meus Créditos",

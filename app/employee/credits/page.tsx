@@ -3,7 +3,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Eye, Download } from "lucide-react"
+import { Eye, Download, Plus } from "lucide-react"
+import { RequestCreditModal } from "@/components/credit/request-credit-modal"
 
 export default function EmployeeCreditsPage() {
   const credits = [
@@ -43,10 +44,13 @@ export default function EmployeeCreditsPage() {
           <h1 className="text-3xl font-bold tracking-tight">Meus Créditos</h1>
           <p className="text-muted-foreground">Visualize todos os seus créditos aprovados e pendentes</p>
         </div>
-        <Button>
-          <Download className="mr-2 h-4 w-4" />
-          Exportar Extrato
-        </Button>
+        <div className="flex gap-2">
+          <RequestCreditModal />
+          <Button>
+            <Download className="mr-2 h-4 w-4" />
+            Exportar Extrato
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4">
