@@ -184,6 +184,28 @@ export interface CompanyUsersResponse {
   total: number;
 }
 
+export interface AvailableInvestment {
+  id: number;
+  amount: number;
+  company_name: string;
+  created_at: string;
+  employee_name: string;
+  interest_rate: number;
+  invested_amount: number;
+  investment_percentage: number;
+  purpose: string;
+  remaining_amount: number;
+  term_months: number;
+}
+
+export interface AvailableInvestmentsResponse {
+  data: AvailableInvestment[];
+  message: string;
+  status: string;
+  statusCode: number;
+  total: number;
+}
+
 export const authApi = {
   loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
@@ -312,6 +334,17 @@ export const invitationApi = {
 
   getCompanyUsers: async (): Promise<CompanyUsersResponse> => {
     const response = await axios.get(`${API_BASE_URL}/api/users/company/users`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+};
+
+export const investmentApi = {
+  getAvailableInvestments: async (): Promise<AvailableInvestmentsResponse> => {
+    const response = await axios.get(`${API_BASE_URL}/api/credits/employee/available`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },

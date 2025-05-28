@@ -24,9 +24,9 @@ const employeeMenuItems = [
     icon: CreditCard,
   },
   {
-    title: "Histórico",
-    url: "/employee/history",
-    icon: History,
+    title: "Investimentos",
+    url: "/employee/investment-available",
+    icon: CreditCard,
   },
 ]
 

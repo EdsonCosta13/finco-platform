@@ -100,15 +100,15 @@ export default function LoginPage() {
                     <Logo size="md" showText={false} />
                   </div>
                   <div>
-                    <h1 className="text-3xl font-bold">FinCo</h1>
-                    <p className="text-primary-100">Crédito Colaborativo</p>
+                    <h1 className="text-3xl font-bold">Finco </h1>
+                    <p className="text-primary-100">Finanças para voce,por você</p>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-4xl xl:text-5xl font-bold leading-tight">
-                    Gestão Financeira
+                    
                     <br />
-                    <span className="text-primary-200">Inteligente</span>
+                    <span className="text-primary-200">Solução de Crédito</span>
                   </h2>
                   <p className="text-xl text-primary-100 max-w-md">
                     Plataforma corporativa para gestão de crédito colaborativo com segurança e eficiência empresarial.
@@ -163,7 +163,7 @@ export default function LoginPage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <Tabs defaultValue="colaborador" className="w-full" onValueChange={setActiveTab}>
-                  <TabsList className="grid w-full grid-cols-3 mb-6">
+                  <TabsList className="grid w-full grid-cols-2 mb-6">
                     <TabsTrigger value="colaborador" className="flex items-center gap-2">
                       <User className="h-4 w-4" />
                       Colaborador
@@ -172,10 +172,7 @@ export default function LoginPage() {
                       <Users className="h-4 w-4" />
                       Gestor
                     </TabsTrigger>
-                    <TabsTrigger value="admin" className="flex items-center gap-2">
-                      <UserCog className="h-4 w-4" />
-                      Admin
-                    </TabsTrigger>
+                    
                   </TabsList>
 
                   <TabsContent value="colaborador">
@@ -420,53 +417,6 @@ export default function LoginPage() {
                 </Tabs>
 
                 {/* Demo Access */}
-                <div className="pt-6 border-t border-gray-200">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setShowDemo(!showDemo)}
-                    className="w-full text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    {showDemo ? "Ocultar" : "Mostrar"} Acesso de Demonstração
-                  </Button>
-
-                  {showDemo && (
-                    <div className="mt-4 space-y-3 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-xs text-gray-600 text-center mb-3">Para fins de demonstração e avaliação</p>
-                      <div className="grid gap-2">
-                        <Button
-                          onClick={() => handleQuickLogin("admin")}
-                          variant="outline"
-                          size="sm"
-                          className="w-full justify-start text-xs"
-                          disabled={isLoading}
-                        >
-                          <Shield className="mr-2 h-3 w-3" />
-                          Administrador do Sistema
-                        </Button>
-                        <Button
-                          onClick={() => handleQuickLogin("manager")}
-                          variant="outline"
-                          size="sm"
-                          className="w-full justify-start text-xs"
-                          disabled={isLoading}
-                        >
-                          <CheckCircle className="mr-2 h-3 w-3" />
-                          Gerente de Equipe
-                        </Button>
-                        <Button
-                          onClick={() => handleQuickLogin("employee")}
-                          variant="outline"
-                          size="sm"
-                          className="w-full justify-start text-xs"
-                          disabled={isLoading}
-                        >
-                          <Lock className="mr-2 h-3 w-3" />
-                          Funcionário
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
               </CardContent>
             </Card>
 
