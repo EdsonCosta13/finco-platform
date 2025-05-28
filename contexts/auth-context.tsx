@@ -1,146 +1,70 @@
 "use client"
 
-import type React from "react"
-import { createContext, useContext, useEffect, useState } from "react"
-import type { User, AuthState } from "@/types/auth"
+import React, { createContext, useContext, useState, useEffect } from "react"
+import { authApi } from "@/lib/api"
 
-interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<void>
-  logout: () => void
-  register: (data: RegisterData) => Promise<void>
-}
-
-interface RegisterData {
-  name: string
+interface User {
+  id: number
   email: string
-  password: string
-  token: string
+  name: string
+  role: string
+  company_id: number
+  is_active: boolean
+  is_admin: boolean
+  created_at: string
+  updated_at: string
 }
 
-type UserRole = "admin" | "manager" | "employee"
+interface AuthContextType {
+  user: User | null
+  isLoading: boolean
+  login: (email: string, password: string, role: "colaborador" | "gestor") => Promise<void>
+  logout: () => void
+}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    isLoading: true,
-    isAuthenticated: false,
-  })
+  const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simular verificação de token armazenado
-    const checkAuth = async () => {
-      try {
-        const token = localStorage.getItem("auth-token")
-        const userData = localStorage.getItem("user-data")
-
-        if (token && userData) {
-          const user = JSON.parse(userData) as User
-          setAuthState({
-            user,
-            isLoading: false,
-            isAuthenticated: true,
-          })
-        } else {
-          setAuthState((prev) => ({ ...prev, isLoading: false }))
-        }
-      } catch (error) {
-        setAuthState((prev) => ({ ...prev, isLoading: false }))
-      }
+    // Check for stored user data on mount
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
     }
-
-    checkAuth()
+    setIsLoading(false)
   }, [])
 
-  const login = async (email: string, password: string) => {
-    setAuthState((prev) => ({ ...prev, isLoading: true }))
-
+  const login = async (email: string, password: string, role: "colaborador" | "gestor") => {
     try {
-      // Simular login - substituir por API real
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Melhorar a lógica de determinação do role
-      let userRole: UserRole = "employee" // default
-
-      if (email.includes("admin") || email.startsWith("admin")) {
-        userRole = "admin"
-      } else if (email.includes("manager") || email.includes("gerente")) {
-        userRole = "manager"
+      // Use the correct endpoint based on the role
+      let response
+      if (role === "gestor") {
+        response = await authApi.loginManager({ email, password })
+      } else {
+        response = await authApi.loginEmployee({ email, password })
       }
 
-      const mockUser: User = {
-        id: Date.now().toString(),
-        email,
-        name: "User Name",
-        role: userRole,
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      if (response?.data?.access_token) {
+        localStorage.setItem("access_token", response.data.access_token)
+        localStorage.setItem("user", JSON.stringify(response.data.user))
+        setUser(response.data.user)
       }
-
-      localStorage.setItem("auth-token", "mock-token")
-      localStorage.setItem("user-data", JSON.stringify(mockUser))
-
-      setAuthState({
-        user: mockUser,
-        isLoading: false,
-        isAuthenticated: true,
-      })
     } catch (error) {
-      setAuthState((prev) => ({ ...prev, isLoading: false }))
       throw error
     }
   }
 
   const logout = () => {
-    localStorage.removeItem("auth-token")
-    localStorage.removeItem("user-data")
-    setAuthState({
-      user: null,
-      isLoading: false,
-      isAuthenticated: false,
-    })
-  }
-
-  const register = async (data: RegisterData) => {
-    setAuthState((prev) => ({ ...prev, isLoading: true }))
-
-    try {
-      // Simular registro - substituir por API real
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      const newUser: User = {
-        id: Date.now().toString(),
-        email: data.email,
-        name: data.name,
-        role: "employee", // Será determinado pelo token de convite
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
-
-      localStorage.setItem("auth-token", "mock-token")
-      setAuthState({
-        user: newUser,
-        isLoading: false,
-        isAuthenticated: true,
-      })
-    } catch (error) {
-      setAuthState((prev) => ({ ...prev, isLoading: false }))
-      throw error
-    }
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("user")
+    setUser(null)
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        ...authState,
-        login,
-        logout,
-        register,
-      }}
-    >
+    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

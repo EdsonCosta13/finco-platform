@@ -13,6 +13,7 @@ import { Logo } from "@/components/brand/logo"
 import { toast } from "sonner"
 import { Shield, Lock, Eye, EyeOff, ArrowRight, CheckCircle, User, Users, UserCog } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { authApi } from "@/lib/api"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -27,19 +28,19 @@ export default function LoginPage() {
     e.preventDefault()
 
     try {
-      await login(email, password)
-      toast.success("Acesso autorizado com sucesso!")
+      await login(email, password, activeTab as "colaborador" | "gestor")
+      toast.success("Login realizado com sucesso!")
 
       // Redirecionar baseado no role do usuário
-      if (email.includes("admin")) {
+      if (activeTab === "admin") {
         router.push("/admin")
-      } else if (email.includes("manager") || email.includes("gerente")) {
+      } else if (activeTab === "gestor") {
         router.push("/manager")
       } else {
         router.push("/employee")
       }
-    } catch (error) {
-      toast.error("Credenciais inválidas. Verifique seus dados de acesso.")
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Erro ao realizar login. Verifique suas credenciais.")
     }
   }
 
@@ -51,11 +52,11 @@ export default function LoginPage() {
     }
 
     try {
-      await login(emails[role], "123456")
-      toast.success("Acesso autorizado com sucesso!")
+      await login(emails[role], "123456", role === "manager" ? "gestor" : "colaborador")
+      toast.success("Login realizado com sucesso!")
       router.push(`/${role}`)
-    } catch (error) {
-      toast.error("Erro no processo de autenticação.")
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Erro ao realizar login de demonstração.")
     }
   }
 

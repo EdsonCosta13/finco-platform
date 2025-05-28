@@ -1,0 +1,52 @@
+import axios from 'axios';
+
+const API_BASE_URL = 'http://127.0.0.1:5000';
+
+export interface LoginResponse {
+  data: {
+    access_token: string;
+    employee?: {
+      company_id: number;
+      cpf: string;
+      created_at: string;
+      email: string;
+      id: number;
+      name: string;
+      phone: string;
+      position: string;
+      salary: number;
+      updated_at: string;
+    };
+    user: {
+      company_id: number;
+      created_at: string;
+      email: string;
+      id: number;
+      is_active: boolean;
+      is_admin: boolean;
+      name: string;
+      role: string;
+      updated_at: string;
+    };
+  };
+  message: string;
+  status: string;
+  statusCode: number;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export const authApi = {
+  loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
+    const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
+    return response.data;
+  },
+
+  loginManager: async (credentials: LoginRequest): Promise<LoginResponse> => {
+    const response = await axios.post(`${API_BASE_URL}/api/auth/manager/login`, credentials);
+    return response.data;
+  },
+}; 
