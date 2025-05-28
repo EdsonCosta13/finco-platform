@@ -76,13 +76,9 @@ export default function ManagerCreditPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Gerenciamento de Créditos</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Solicitações de Crédito</h1>
           <p className="text-muted-foreground">Gerencie as solicitações de crédito dos funcionários</p>
         </div>
-        <Button>
-          <Download className="mr-2 h-4 w-4" />
-          Exportar Relatório
-        </Button>
       </div>
 
       <Tabs defaultValue="pending" value={activeTab} onValueChange={setActiveTab}>

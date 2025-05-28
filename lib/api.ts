@@ -142,6 +142,48 @@ export interface InviteEmployeeResponse {
   statusCode: number;
 }
 
+export interface CompanyInvitation {
+  id: number;
+  company_id: number;
+  created_at: string;
+  created_by: number | null;
+  email: string;
+  expires_at: string;
+  invitation_code: string;
+  is_used: boolean;
+  role: string;
+  status: "pending" | "used" | "expired" | string;
+  user_id: number | null;
+}
+
+export interface CompanyInvitationsResponse {
+  data: CompanyInvitation[];
+  message: string;
+  status: string;
+  statusCode: number;
+  total: number;
+}
+
+export interface CompanyUser {
+  id: number;
+  company_id: number;
+  created_at: string;
+  updated_at: string;
+  email: string;
+  is_active: boolean;
+  is_admin: boolean;
+  name: string;
+  role: string;
+}
+
+export interface CompanyUsersResponse {
+  data: CompanyUser[];
+  message: string;
+  status: string;
+  statusCode: number;
+  total: number;
+}
+
 export const authApi = {
   loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
@@ -252,6 +294,24 @@ export const invitationApi = {
 
   getInvitations: async (): Promise<{ data: Invitation[] }> => {
     const response = await axios.get(`${API_BASE_URL}/api/invitations`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+
+  getCompanyInvitations: async (): Promise<CompanyInvitationsResponse> => {
+    const response = await axios.get(`${API_BASE_URL}/api/invitations/company/invitations`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    return response.data;
+  },
+
+  getCompanyUsers: async (): Promise<CompanyUsersResponse> => {
+    const response = await axios.get(`${API_BASE_URL}/api/users/company/users`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
