@@ -119,7 +119,7 @@ export default function RegisterPage() {
                 id="cpf"
                 name="cpf"
                 type="text"
-                placeholder="000.000.000-00"
+                placeholder="0123456789LA042"
                 value={formData.cpf}
                 onChange={handleChange}
                 className="h-10 bg-white"
