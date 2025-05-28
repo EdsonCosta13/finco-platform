@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { ArrowRight, Eye, EyeOff, Shield, CheckCircle2 } from "lucide-react"
+import { ArrowRight, Eye, EyeOff, Shield, CheckCircle2, UserCircle2, Building2, KeyRound } from "lucide-react"
 import { Logo } from "@/components/brand/logo"
 
 export default function RegisterPage() {
@@ -28,9 +28,18 @@ export default function RegisterPage() {
   const router = useRouter()
 
   const steps = [
-    { id: 1, title: "Informações Pessoais" },
-    { id: 2, title: "Informações Profissionais" },
-    { id: 3, title: "Segurança" }
+    { 
+      id: 1, 
+      icon: UserCircle2
+    },
+    { 
+      id: 2, 
+      icon: Building2
+    },
+    { 
+      id: 3, 
+      icon: KeyRound
+    }
   ]
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -284,25 +293,20 @@ export default function RegisterPage() {
               <div className="px-2">
                 <div className="flex items-center justify-between relative">
                   {steps.map((step, index) => (
-                    <div key={step.id} className="flex flex-col items-center relative z-10 flex-1">
-                      <div className={`flex items-center justify-center w-9 h-9 rounded-full border-2 transition-all duration-300 ${
+                    <div key={step.id} className="flex items-center justify-center relative z-10 flex-1">
+                      <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300 ${
                         currentStep >= step.id 
-                          ? 'border-primary-600 bg-primary-600 text-white' 
+                          ? 'border-primary-600 bg-primary-600 text-white shadow-lg shadow-primary-600/20' 
                           : 'border-gray-200 bg-white text-gray-400'
                       }`}>
                         {currentStep > step.id ? (
-                          <CheckCircle2 className="w-5 h-5" />
+                          <CheckCircle2 className="w-6 h-6" />
                         ) : (
-                          <span className="font-medium">{step.id}</span>
+                          <step.icon className="w-6 h-6" />
                         )}
                       </div>
-                      <span className={`text-xs font-medium mt-2 transition-colors duration-300 text-center ${
-                        currentStep >= step.id ? 'text-primary-600' : 'text-gray-400'
-                      }`}>
-                        {step.title}
-                      </span>
                       {index < steps.length - 1 && (
-                        <div className="absolute top-[18px] left-[calc(100%+0.5rem)] w-[calc(100%-1rem)] h-0.5 bg-gray-200">
+                        <div className="absolute top-[24px] left-[calc(50%+24px)] w-[calc(100%-48px)] h-0.5 bg-gray-200">
                           <div 
                             className={`h-full bg-primary-600 transition-all duration-300 ${
                               currentStep > step.id ? 'w-full' : 'w-0'
