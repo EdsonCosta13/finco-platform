@@ -22,9 +22,15 @@ export function InviteEmployeeModal({ onSuccess, open, onOpenChange }: InviteEmp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-
     try {
-      await invitationApi.inviteEmployee({ email })
+
+      const profile = await invitationApi.getProfile()
+
+      console.log("profile", profile)
+      const company_id = profile.data.user.company_id
+      console.log("company_id", company_id)
+  
+      await invitationApi.inviteEmployee({ email, company_id })
       toast.success("Convite enviado com sucesso!")
       onOpenChange(false)
       setEmail("")

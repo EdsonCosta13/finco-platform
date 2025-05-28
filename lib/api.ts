@@ -105,11 +105,14 @@ export interface ManagerCreditRequestResponse {
 
 export interface UserProfileResponse {
   data: {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-    company_id: number;
+    user: {
+      id: number;
+      name: string;
+      email: string;
+      role: string;
+      company_id: number;
+      // outros campos se necessário
+    }
   }
 }
 
@@ -130,6 +133,7 @@ export interface Invitation {
 
 export interface InviteEmployeeRequest {
   email: string;
+  company_id: number;
 }
 
 export interface InviteEmployeeResponse {
