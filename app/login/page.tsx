@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,23 +20,27 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showDemo, setShowDemo] = useState(false)
   const [activeTab, setActiveTab] = useState("colaborador")
-  const { login, isLoading } = useAuth()
+  const { login, isLoading, isAuthenticated, user } = useAuth()
   const router = useRouter()
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === "manager") {
+        router.replace("/manager")
+      } else {
+        router.replace("/employee")
+      }
+    }
+  }, [isAuthenticated, user, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
-      await login(email, password, activeTab as "colaborador" | "gestor")
-      toast.success("Login realizado com sucesso!")
-
-      // Redirecionar baseado no role do usuário
-      if (activeTab === "admin") {
-        router.push("/admin")
-      } else if (activeTab === "gestor") {
-        router.push("/manager")
-      } else {
-        router.push("/employee")
+      const response = await login(email, password, activeTab as "colaborador" | "gestor")
+      
+      if (response?.data?.access_token) {
+        toast.success("Login realizado com sucesso!")
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Erro ao realizar login. Verifique suas credenciais.")
@@ -52,9 +55,11 @@ export default function LoginPage() {
     }
 
     try {
-      await login(emails[role], "123456", role === "manager" ? "gestor" : "colaborador")
-      toast.success("Login realizado com sucesso!")
-      router.push(`/${role}`)
+      const response = await login(emails[role], "123456", role === "manager" ? "gestor" : "colaborador")
+      
+      if (response?.data?.access_token) {
+        toast.success("Login realizado com sucesso!")
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Erro ao realizar login de demonstração.")
     }
