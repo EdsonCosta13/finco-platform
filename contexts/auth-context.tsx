@@ -27,27 +27,29 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user")
+      return storedUser ? JSON.parse(storedUser) : null
+    }
+    return null
+  })
   const [isLoading, setIsLoading] = useState(true)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !!localStorage.getItem("access_token")
+    }
+    return false
+  })
   const router = useRouter()
 
   useEffect(() => {
-    // Check for stored user data on mount
-    const storedUser = localStorage.getItem("user")
-    const token = localStorage.getItem("access_token")
-    
-    if (storedUser && token) {
-      setUser(JSON.parse(storedUser))
-      setIsAuthenticated(true)
-    }
     setIsLoading(false)
   }, [])
 
   const login = async (email: string, password: string, role: "colaborador" | "gestor"): Promise<LoginResponse> => {
     try {
       setIsLoading(true)
-      // Use the correct endpoint based on the role
       let response
       if (role === "gestor") {
         response = await authApi.loginManager({ email, password })
