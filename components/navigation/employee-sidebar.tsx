@@ -1,0 +1,62 @@
+"use client"
+
+import { CreditCard, FileText, User, History } from "lucide-react"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar"
+
+const employeeMenuItems = [
+  {
+    title: "Meu Perfil",
+    url: "/employee",
+    icon: User,
+  },
+  {
+    title: "Solicitar Crédito",
+    url: "/employee/request",
+    icon: FileText,
+  },
+  {
+    title: "Meus Créditos",
+    url: "/employee/credits",
+    icon: CreditCard,
+  },
+  {
+    title: "Histórico",
+    url: "/employee/history",
+    icon: History,
+  },
+]
+
+export function EmployeeSidebar() {
+  return (
+    <Sidebar>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Funcionário</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {employeeMenuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  )
+}
