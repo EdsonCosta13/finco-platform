@@ -21,7 +21,7 @@ export default function EmployeeDashboard() {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">R$ 25.000</div>
+            <div className="text-2xl font-bold">Kzs25.000</div>
             <p className="text-xs text-muted-foreground">Limite aprovado</p>
           </CardContent>
         </Card>
@@ -32,7 +32,7 @@ export default function EmployeeDashboard() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">R$ 8.500</div>
+            <div className="text-2xl font-bold">Kzs8.500</div>
             <p className="text-xs text-muted-foreground">34% do limite</p>
           </CardContent>
         </Card>
@@ -60,21 +60,21 @@ export default function EmployeeDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Solicitação #001</p>
-                  <p className="text-sm text-muted-foreground">R$ 5.000 - 15/01/2024</p>
+                  <p className="text-sm text-muted-foreground">Kzs5.000 - 15/01/2024</p>
                 </div>
                 <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Aprovado</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Solicitação #002</p>
-                  <p className="text-sm text-muted-foreground">R$ 3.500 - 20/01/2024</p>
+                  <p className="text-sm text-muted-foreground">Kzs3.500 - 20/01/2024</p>
                 </div>
                 <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Aprovado</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Solicitação #003</p>
-                  <p className="text-sm text-muted-foreground">R$ 10.000 - 25/01/2024</p>
+                  <p className="text-sm text-muted-foreground">Kzs10.000 - 25/01/2024</p>
                 </div>
                 <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Pendente</span>
               </div>
@@ -91,15 +91,15 @@ export default function EmployeeDashboard() {
             <div className="space-y-4">
               <div className="flex justify-between">
                 <span className="text-sm">Limite Total:</span>
-                <span className="text-sm font-medium">R$ 25.000</span>
+                <span className="text-sm font-medium">Kzs25.000</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Utilizado:</span>
-                <span className="text-sm font-medium">R$ 8.500</span>
+                <span className="text-sm font-medium">Kzs8.500</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Disponível:</span>
-                <span className="text-sm font-medium text-green-600">R$ 16.500</span>
+                <span className="text-sm font-medium text-green-600">Kzs16.500</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div className="bg-blue-600 h-2 rounded-full" style={{ width: "34%" }}></div>

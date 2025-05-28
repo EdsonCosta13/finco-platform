@@ -24,19 +24,9 @@ const managerMenuItems = [
     icon: Users,
   },
   {
-    title: "Solicitações",
-    url: "/manager/requests",
+    title: "Solicitações de Crédito",
+    url: "/manager/credit",
     icon: FileText,
-  },
-  {
-    title: "Créditos",
-    url: "/manager/credits",
-    icon: CreditCard,
-  },
-  {
-    title: "Metas",
-    url: "/manager/goals",
-    icon: Target,
   },
 ]
 

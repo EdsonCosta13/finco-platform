@@ -81,6 +81,28 @@ export interface CreditRequestResponse {
   total: number;
 }
 
+export interface ManagerCreditRequestResponse {
+  data: {
+    amount: number;
+    company_name: string;
+    created_at: string;
+    employee_id: number;
+    employee_name: string;
+    funded_amount: number;
+    id: number;
+    interest_rate: number;
+    purpose: string;
+    status: string;
+    term_months: number;
+    updated_at: string;
+  }[];
+  message: string;
+  status: string;
+  statusCode: number;
+  status_filter: string;
+  total: number;
+}
+
 export const authApi = {
   loginEmployee: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_BASE_URL}/api/auth/employee/login`, credentials);
@@ -112,6 +134,35 @@ export const creditApi = {
     const token = localStorage.getItem('access_token');
     const response = await axios.get(
       `${API_BASE_URL}/api/credits/employee/requests`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return response.data;
+  }
+};
+
+export const managerApi = {
+  getCreditRequests: async (status?: string): Promise<ManagerCreditRequestResponse> => {
+    const token = localStorage.getItem('access_token');
+    const response = await axios.get(
+      `${API_BASE_URL}/api/manager/credit/requests${status ? `?status=${status}` : ''}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return response.data;
+  },
+
+  updateCreditRequestStatus: async (requestId: number, status: 'approved' | 'rejected'): Promise<{ message: string }> => {
+    const token = localStorage.getItem('access_token');
+    const response = await axios.patch(
+      `${API_BASE_URL}/api/manager/credit/requests/${requestId}/status`,
+      { status },
       {
         headers: {
           Authorization: `Bearer ${token}`
