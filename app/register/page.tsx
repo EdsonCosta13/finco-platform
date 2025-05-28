@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { ArrowRight, Eye, EyeOff, Shield } from "lucide-react"
+import { ArrowRight, Eye, EyeOff, Shield, CheckCircle2 } from "lucide-react"
 import { Logo } from "@/components/brand/logo"
 
 export default function RegisterPage() {
@@ -24,7 +24,14 @@ export default function RegisterPage() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [currentStep, setCurrentStep] = useState(1)
   const router = useRouter()
+
+  const steps = [
+    { id: 1, title: "Informações Pessoais" },
+    { id: 2, title: "Informações Profissionais" },
+    { id: 3, title: "Segurança" }
+  ]
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -62,6 +69,159 @@ export default function RegisterPage() {
       toast.error(error.message || "Erro ao realizar registro. Tente novamente.")
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const nextStep = () => {
+    setCurrentStep(prev => Math.min(prev + 1, steps.length))
+  }
+
+  const prevStep = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 1))
+  }
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium text-gray-700">Nome Completo</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Seu nome completo"
+                value={formData.name}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="seu@email.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="cpf" className="text-sm font-medium text-gray-700">Nº de Identificação</Label>
+              <Input
+                id="cpf"
+                name="cpf"
+                type="text"
+                placeholder="000.000.000-00"
+                value={formData.cpf}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+          </div>
+        )
+      case 2:
+        return (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="position" className="text-sm font-medium text-gray-700">Cargo</Label>
+              <Input
+                id="position"
+                name="position"
+                type="text"
+                placeholder="Seu cargo atual"
+                value={formData.position}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="salary" className="text-sm font-medium text-gray-700">Salário</Label>
+              <Input
+                id="salary"
+                name="salary"
+                type="number"
+                step="0.01"
+                placeholder="0.00"
+                value={formData.salary}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Telefone</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="+244XXXXXXXXX"
+                value={formData.phone}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+          </div>
+        )
+      case 3:
+        return (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium text-gray-700">Senha</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="h-10 pr-12 bg-white"
+                  required
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4 text-gray-400" />
+                  ) : (
+                    <Eye className="h-4 w-4 text-gray-400" />
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="invitation_code" className="text-sm font-medium text-gray-700">Código de Convite</Label>
+              <Input
+                id="invitation_code"
+                name="invitation_code"
+                type="text"
+                placeholder="Código de convite"
+                value={formData.invitation_code}
+                onChange={handleChange}
+                className="h-10 bg-white"
+                required
+              />
+            </div>
+          </div>
+        )
     }
   }
 
@@ -106,153 +266,83 @@ export default function RegisterPage() {
         </div>
 
         {/* Right Side - Registration Form */}
-        <div className="flex-1 lg:w-1/2 xl:w-2/5 flex items-center justify-center p-8">
-          <div className="w-full max-w-md space-y-8">
+        <div className="flex-1 lg:w-1/2 xl:w-2/5 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+          <div className="w-full max-w-[420px] space-y-6">
             {/* Mobile Logo */}
-            <div className="lg:hidden text-center">
+            <div className="lg:hidden text-center mb-8">
               <Logo size="lg" />
             </div>
 
-            {/* Registration Card */}
-            <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm">
-              <CardHeader className="space-y-2 text-center pb-8">
-                <CardTitle className="text-2xl font-bold text-gray-900">Criar Conta</CardTitle>
-                <CardDescription className="text-gray-600">Preencha seus dados para criar sua conta</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Coluna 1 */}
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">Nome Completo</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          type="text"
-                          placeholder="Seu nome completo"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
+            {/* Registration Form */}
+            <div className="space-y-6">
+              <div className="text-center space-y-2">
+                <h1 className="text-2xl font-bold text-gray-900">Criar Conta</h1>
+                <p className="text-gray-600">Preencha seus dados para criar sua conta</p>
+              </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          placeholder="seu@email.com"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                        />
+              {/* Steps Progress */}
+              <div className="px-2">
+                <div className="flex items-center justify-between relative">
+                  {steps.map((step, index) => (
+                    <div key={step.id} className="flex flex-col items-center relative z-10 flex-1">
+                      <div className={`flex items-center justify-center w-9 h-9 rounded-full border-2 transition-all duration-300 ${
+                        currentStep >= step.id 
+                          ? 'border-primary-600 bg-primary-600 text-white' 
+                          : 'border-gray-200 bg-white text-gray-400'
+                      }`}>
+                        {currentStep > step.id ? (
+                          <CheckCircle2 className="w-5 h-5" />
+                        ) : (
+                          <span className="font-medium">{step.id}</span>
+                        )}
                       </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="cpf">Nº de Identificação</Label>
-                        <Input
-                          id="cpf"
-                          name="cpf"
-                          type="text"
-                          placeholder="000.000.000-00"
-                          value={formData.cpf}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="position">Cargo</Label>
-                        <Input
-                          id="position"
-                          name="position"
-                          type="text"
-                          placeholder="Seu cargo atual"
-                          value={formData.position}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    {/* Coluna 2 */}
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="salary">Salário</Label>
-                        <Input
-                          id="salary"
-                          name="salary"
-                          type="number"
-                          step="0.01"
-                          placeholder="0.00"
-                          value={formData.salary}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">Telefone</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          placeholder="+244XXXXXXXXX"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="password">Senha</Label>
-                        <div className="relative">
-                          <Input
-                            id="password"
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="••••••••"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
+                      <span className={`text-xs font-medium mt-2 transition-colors duration-300 text-center ${
+                        currentStep >= step.id ? 'text-primary-600' : 'text-gray-400'
+                      }`}>
+                        {step.title}
+                      </span>
+                      {index < steps.length - 1 && (
+                        <div className="absolute top-[18px] left-[calc(100%+0.5rem)] w-[calc(100%-1rem)] h-0.5 bg-gray-200">
+                          <div 
+                            className={`h-full bg-primary-600 transition-all duration-300 ${
+                              currentStep > step.id ? 'w-full' : 'w-0'
+                            }`}
                           />
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            {showPassword ? (
-                              <EyeOff className="h-4 w-4 text-gray-400" />
-                            ) : (
-                              <Eye className="h-4 w-4 text-gray-400" />
-                            )}
-                          </Button>
                         </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="invitation_code">Código de Convite</Label>
-                        <Input
-                          id="invitation_code"
-                          name="invitation_code"
-                          type="text"
-                          placeholder="Código de convite"
-                          value={formData.invitation_code}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
+                      )}
                     </div>
-                  </div>
+                  ))}
+                </div>
+              </div>
 
-                  <div className="pt-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  {renderStepContent()}
+                </div>
+
+                <div className="flex justify-between pt-2">
+                  {currentStep > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={prevStep}
+                      className="px-6 h-10 border-gray-200 hover:bg-gray-50"
+                    >
+                      Voltar
+                    </Button>
+                  )}
+                  {currentStep < steps.length ? (
+                    <Button
+                      type="button"
+                      onClick={nextStep}
+                      className="ml-auto px-6 h-10 bg-primary-600 hover:bg-primary-700 shadow-sm"
+                    >
+                      Próximo
+                    </Button>
+                  ) : (
                     <Button
                       type="submit"
-                      className="w-full h-12 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                      className="ml-auto px-6 h-10 bg-primary-600 hover:bg-primary-700 shadow-sm"
                       disabled={isLoading}
                     >
                       {isLoading ? (
@@ -267,10 +357,10 @@ export default function RegisterPage() {
                         </div>
                       )}
                     </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+                  )}
+                </div>
+              </form>
+            </div>
 
             {/* Security Notice */}
             <div className="text-center space-y-2">
